@@ -16,7 +16,7 @@ const port = process.env.PORT || 3005;
 //     "Epstein didn't kill himself"
 // ]
 
-const fortune = require('.lib/fortune')
+const fortune = require('./lib/fortune')
 
 //configure Handlebars view engine
 app.engine('handlebars', expressHandleBars({
