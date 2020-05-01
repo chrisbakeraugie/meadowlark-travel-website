@@ -5,15 +5,18 @@ const app = express();
 
 const port = process.env.PORT || 3005;
 
-//this array of fortunes is being used to explain dynamic information
-const fortunes = [
-    "Conquer your fears or they will conquer you",
-    "Rivers need springs",
-    "Do not fear what you don't know",
-    "You will have a pleasant suprise",
-    "Whenever possible, keep it simple",
-    "Epstein didn't kill himself"
-]
+// //this array of fortunes is being used to explain dynamic information
+// // ******        MOVED TO lib/fortune.js             *************
+// const fortunes = [
+//     "Conquer your fears or they will conquer you",
+//     "Rivers need springs",
+//     "Do not fear what you don't know",
+//     "You will have a pleasant suprise",
+//     "Whenever possible, keep it simple",
+//     "Epstein didn't kill himself"
+// ]
+
+const fortune = require('.lib/fortune')
 
 //configure Handlebars view engine
 app.engine('handlebars', expressHandleBars({
@@ -40,8 +43,10 @@ app.get('/', (req, res) => {
 //route to the about page
 app.get('/about', (req, res) => {
     //handlebars render
-    const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)]
-    res.render('about', {fortune: randomFortune})
+
+    //MOVED TO lib/fortunes.js
+    //const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)]
+    res.render('about', {fortune: fortune.getFortune() })
 
     //Non-handlebar framwork   vvvvv
     // res.type('text/plain')
