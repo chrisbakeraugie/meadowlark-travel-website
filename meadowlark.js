@@ -3,6 +3,7 @@ const expressHandleBars = require('express-handlebars');
 
 const app = express();
 
+const handlers = require('./lib/handlers')
 const port = process.env.PORT || 3005;
 
 // //this array of fortunes is being used to explain dynamic information
@@ -29,6 +30,21 @@ app.set('view engine', 'handlebars')
 //This STATIC middleware has the same effect as creating a route for each static 
 //file you want to deliver that renders a file and returns it to the client
 app.use(express.static(__dirname + '/public'))
+
+app.get('/', handlers.home);
+
+app.get('/about', handlers.about);
+
+//404 page
+app.use(handlers.notFound);
+
+//500 page
+app.use(handlers.serverError);
+
+/*
+Everything in this comment section is replaced by handlers.js, refeactoring that is being
+done to practice QA code testing.
+Leaving it here for the purpose of remembering the basics of Express
 
 //route to the home page
 app.get('/', (req, res) => {
@@ -68,8 +84,19 @@ app.use((err, req, res, next) => {
     res.send('500 - Server Error')
 })
 
+*/
+
+if(require.main === module) {
+    app.listen(port, () => {
+        console.log( `Express started on http://localhost:${port}; ` + `press Ctrl-C to terminate.` );
+    })
+} else {
+    module.exports = app;
+}
 
 
-app.listen(port, () => {
-    console.log(`Express started on http://localhost:${port}; ` + `press Ctrl-C to terminate.`)
-})
+//Replaced with if(require.main) in order to practice integration testing
+
+// app.listen(port, () => {
+//     console.log(`Express started on http://localhost:${port}; ` + `press Ctrl-C to terminate.`)
+// })
