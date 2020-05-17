@@ -7,24 +7,24 @@ let server = null;
 let port = null;
 //* You can also use beforeALL and afterALL, but doing it this way prevents
 //  tests from being affected by one another
-//Jest method for starting the server
+// Jest method for starting the server
 beforeEach(async () => {
-    port = await portfinder.getPortPromise();
-    server = app.listen(port);
+  port = await portfinder.getPortPromise();
+  server = app.listen(port);
 });
 
-//Jest method for closing the server
+// Jest method for closing the server
 afterEach(() => {
-    server.close();
+  server.close();
 });
 
 test('home page links to about page', async () => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto(`http://localhost:${port}`);
-    await Promise.all([
-        page.waitForNavigation(), page.click('[data-test-id="about"]'),
-    ]);
-    expect(page.url()).toBe(`http://localhost:${port}/about`);
-    await browser.close;
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto(`http://localhost:${port}`);
+  await Promise.all([
+    page.waitForNavigation(), page.click('[data-test-id="about"]')
+  ]);
+  expect(page.url()).toBe(`http://localhost:${port}/about`);
+  await browser.close;
 })

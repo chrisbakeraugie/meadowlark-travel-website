@@ -4,13 +4,14 @@
   "description": "A test package for learning Node and Express",
   "main": "meadowlark.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint meadowlark.js lib"
   },
   "author": "Chris Baker",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "express-handlebars": "^4.0.3"
+    "express-handlebars": "^4.0.4"
   },
   "devDependencies": {
     "eslint": "^7.0.0",

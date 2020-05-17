@@ -17,28 +17,37 @@ const port = process.env.PORT || 3005;
 //     "Epstein didn't kill himself"
 // ]
 
-const fortune = require('./lib/fortune')
+// const fortune = require('./lib/fortune') NOT USED BECAUSE IT WAS MOVED TO fortune.js
 
-//configure Handlebars view engine
+// configure Handlebars view engine
 app.engine('handlebars', expressHandleBars({
-    defaultLayout: 'main',
+  defaultLayout: 'main',
+  helpers: {
+    section: function (name, options) {
+      if (!this._sections) this._sections = {}
+      this._sections[name] = options.fn(this)
+      return null
+    }
+  }
 }))
 app.set('view engine', 'handlebars')
 
-//IMPORTANT Middleware is processed in order
+// IMPORTANT Middleware is processed in order
 
-//This STATIC middleware has the same effect as creating a route for each static 
-//file you want to deliver that renders a file and returns it to the client
+// This STATIC middleware has the same effect as creating a route for each static
+// file you want to deliver that renders a file and returns it to the client
+/* eslint-disable no-path-concat */
 app.use(express.static(__dirname + '/public'))
+/* eslint-disable no-path-concat */
 
 app.get('/', handlers.home);
 
 app.get('/about', handlers.about);
 
-//404 page
+// 404 page
 app.use(handlers.notFound);
 
-//500 page
+// 500 page
 app.use(handlers.serverError);
 
 /*
@@ -86,16 +95,15 @@ app.use((err, req, res, next) => {
 
 */
 
-if(require.main === module) {
-    app.listen(port, () => {
-        console.log( `Express started on http://localhost:${port}; ` + `press Ctrl-C to terminate.` );
-    })
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Express started on http://localhost:${port}; ` + 'press Ctrl-C to terminate.');
+  })
 } else {
-    module.exports = app;
+  module.exports = app;
 }
 
-
-//Replaced with if(require.main) in order to practice integration testing
+// Replaced with if(require.main) in order to practice integration testing
 
 // app.listen(port, () => {
 //     console.log(`Express started on http://localhost:${port}; ` + `press Ctrl-C to terminate.`)
