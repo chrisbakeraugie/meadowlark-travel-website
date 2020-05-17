@@ -1,5 +1,5 @@
 const express = require('express');
-const expressHandleBars = require('express-handlebars');
+const expressHandlebars = require('express-handlebars');
 
 const app = express();
 
@@ -20,7 +20,7 @@ const port = process.env.PORT || 3005;
 // const fortune = require('./lib/fortune') NOT USED BECAUSE IT WAS MOVED TO fortune.js
 
 // configure Handlebars view engine
-app.engine('handlebars', expressHandleBars({
+app.engine('handlebars', expressHandlebars({
   defaultLayout: 'main',
   helpers: {
     section: function (name, options) {
