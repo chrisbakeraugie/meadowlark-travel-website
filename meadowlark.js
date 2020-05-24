@@ -56,6 +56,10 @@ app.use(handlers.serverError);
 
 app.use(weatherMiddlware);
 
+app.get('/newsletter-signup', handlers.newsletterSignup);
+app.post('/newsletter-signup/process', handlers.newsletterSignupProcess);
+app.get('/newsletter-signup/thank-you', handlers.newsletterSignupThankYou);
+
 /*
 Everything in this comment section is replaced by handlers.js, refeactoring that is being
 done to practice QA code testing.
