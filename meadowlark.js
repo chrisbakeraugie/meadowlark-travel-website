@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(bodyParser.json());
+
 const handlers = require('./lib/handlers');
 const weatherMiddlware = require('./lib/middleware/weather');
 const port = process.env.PORT || 3005;
@@ -46,7 +48,12 @@ app.use(express.static(__dirname + '/public'))
 app.get('/', handlers.home);
 
 app.get('/about', handlers.about);
-app.get('/section-test', handlers.sectionTest)
+app.get('/section-test', handlers.sectionTest);
+
+app.get('/newsletter', handlers.newsletter);
+// app.get('/newsletter-signup', handlers.newsletterSignup); // REMEMBER THAT ORDER OF THESE APP.METHODS MATTERS
+// app.post('/newsletter-signup/process', handlers.newsletterSignupProcess);
+// app.get('/newsletter-signup/thank-you', handlers.newsletterSignupThankYou);
 
 // 404 page
 app.use(handlers.notFound);
@@ -55,10 +62,6 @@ app.use(handlers.notFound);
 app.use(handlers.serverError);
 
 app.use(weatherMiddlware);
-
-app.get('/newsletter-signup', handlers.newsletterSignup);
-app.post('/newsletter-signup/process', handlers.newsletterSignupProcess);
-app.get('/newsletter-signup/thank-you', handlers.newsletterSignupThankYou);
 
 /*
 Everything in this comment section is replaced by handlers.js, refeactoring that is being
