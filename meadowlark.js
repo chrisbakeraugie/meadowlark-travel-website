@@ -1,9 +1,12 @@
 const express = require('express');
 const expressHandlebars = require('express-handlebars');
+const bodyParser = require('body-parser');
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
 
-const handlers = require('./lib/handlers')
+const handlers = require('./lib/handlers');
+const weatherMiddlware = require('./lib/middleware/weather');
 const port = process.env.PORT || 3005;
 
 // //this array of fortunes is being used to explain dynamic information
@@ -43,12 +46,15 @@ app.use(express.static(__dirname + '/public'))
 app.get('/', handlers.home);
 
 app.get('/about', handlers.about);
+app.get('/section-test', handlers.sectionTest)
 
 // 404 page
 app.use(handlers.notFound);
 
 // 500 page
 app.use(handlers.serverError);
+
+app.use(weatherMiddlware);
 
 /*
 Everything in this comment section is replaced by handlers.js, refeactoring that is being
