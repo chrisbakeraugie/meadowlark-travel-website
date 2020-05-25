@@ -1,6 +1,7 @@
 const express = require('express');
 const expressHandlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
+const multiparty = require('multiparty');
 
 const app = express();
 
@@ -54,19 +55,23 @@ app.get('/section-test', handlers.sectionTest);
 
 app.get('/newsletter', handlers.newsletter);
 
-app.post('/api/newsletter-signup', handlers.api.newsletterSignup
-// (res, req) => {
-//   console.log('meadowlark recieved it');
-//   console.log('CSRF token (from hidden form field): ' + req.req.body._csrf);
-//   console.log('Name (from visible form field): ' + req.req.body.name);
-//   console.log('Email (fron visible form field): ' + req.req.body.email);
-//   res.send({ result: 'Success' });
-//   }
-);
+app.post('/api/newsletter-signup', handlers.api.newsletterSignup);
 
 app.get('/newsletter-signup', handlers.newsletterSignup); // REMEMBER THAT ORDER OF THESE APP.METHODS MATTERS
 app.post('/newsletter-signup/process', handlers.newsletterSignupProcess);
 app.get('/newsletter-signup/thank-you', handlers.newsletterSignupThankYou);
+
+app.get('/contest/vacation-photo-thank-you', handlers.vacationPhotoContestThankYou);
+app.get('/contest/vacation-photo', handlers.vacationPhotoContest);
+app.post('/contest/vacation-photo/:year/:month', (req, res) => {
+  const form = new multiparty.Form();
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      return res.status(500).send({ error: err.message });
+    }
+    handlers.vacationPhotoContestProcess(req, res, fields, files);
+  });
+});
 
 // 404 page
 app.use(handlers.notFound);
