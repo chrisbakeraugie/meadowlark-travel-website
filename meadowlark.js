@@ -3,12 +3,14 @@ const expressHandlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
 
 const app = express();
+
+const handlers = require('./lib/handlers');
+const weatherMiddlware = require('./lib/middleware/weather');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
 
-const handlers = require('./lib/handlers');
-const weatherMiddlware = require('./lib/middleware/weather');
 const port = process.env.PORT || 3005;
 
 // //this array of fortunes is being used to explain dynamic information
@@ -42,7 +44,7 @@ app.set('view engine', 'handlebars')
 // This STATIC middleware has the same effect as creating a route for each static
 // file you want to deliver that renders a file and returns it to the client
 /* eslint-disable no-path-concat */
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/public'));
 /* eslint-disable no-path-concat */
 
 app.get('/', handlers.home);
@@ -51,9 +53,20 @@ app.get('/about', handlers.about);
 app.get('/section-test', handlers.sectionTest);
 
 app.get('/newsletter', handlers.newsletter);
-// app.get('/newsletter-signup', handlers.newsletterSignup); // REMEMBER THAT ORDER OF THESE APP.METHODS MATTERS
-// app.post('/newsletter-signup/process', handlers.newsletterSignupProcess);
-// app.get('/newsletter-signup/thank-you', handlers.newsletterSignupThankYou);
+
+app.post('/api/newsletter-signup', handlers.api.newsletterSignup
+// (res, req) => {
+//   console.log('meadowlark recieved it');
+//   console.log('CSRF token (from hidden form field): ' + req.req.body._csrf);
+//   console.log('Name (from visible form field): ' + req.req.body.name);
+//   console.log('Email (fron visible form field): ' + req.req.body.email);
+//   res.send({ result: 'Success' });
+//   }
+);
+
+app.get('/newsletter-signup', handlers.newsletterSignup); // REMEMBER THAT ORDER OF THESE APP.METHODS MATTERS
+app.post('/newsletter-signup/process', handlers.newsletterSignupProcess);
+app.get('/newsletter-signup/thank-you', handlers.newsletterSignupThankYou);
 
 // 404 page
 app.use(handlers.notFound);
