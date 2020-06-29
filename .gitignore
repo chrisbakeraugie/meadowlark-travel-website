@@ -4,3 +4,4 @@ node_modules
 # other files to ignore below
 *~
 .DS_Store
+.credentials.*

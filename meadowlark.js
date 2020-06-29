@@ -2,6 +2,10 @@ const express = require('express');
 const expressHandlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
 const multiparty = require('multiparty');
+const cookieParser = require('cookie-parser');
+const { credentials } = require('./config'); // Only works with brackets? Must be considreed an object
+const expressSession = require('express-session');
+const flashMiddleware = require('./lib/middleware/flash');
 
 const app = express();
 
@@ -11,6 +15,16 @@ const weatherMiddlware = require('./lib/middleware/weather');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
+
+app.use(cookieParser(credentials.cookieSecret));
+
+app.use(expressSession({
+  resave: false,
+  saveUninitialized: false,
+  secret: credentials.cookieSecret
+}));
+
+app.use(flashMiddleware);
 
 const port = process.env.PORT || 3005;
 
@@ -139,7 +153,7 @@ app.use((err, req, res, next) => {
 
 if (require.main === module) {
   app.listen(port, () => {
-    console.log(`Express started on http://localhost:${port}; ` + 'press Ctrl-C to terminate.');
+    console.log('Express started in ' + app.get('env') + ` mode http://localhost:${port}; press Ctrl-C to terminate.`);
   })
 } else {
   module.exports = app;
