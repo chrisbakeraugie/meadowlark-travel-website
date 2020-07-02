@@ -14,7 +14,7 @@ const app = express();
 //   res.send({ here: 'some json' });
 // }) // this was just a test
 
-function startServer(port) {
+function startServer (port) {
   app.listen(port, function () {
     console.log(`Express started in ${app.get('env')} ` + `mode on localhost:${port} -- the 01-server.js file`);
   });
