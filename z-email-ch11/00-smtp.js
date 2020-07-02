@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-const { credentials } = require('./config');
+const { credentials } = require('../config');
 
 const mailTransport = nodemailer.createTransport({
   host: 'smtp.sendgrid.net',

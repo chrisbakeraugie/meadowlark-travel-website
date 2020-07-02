@@ -151,7 +151,7 @@ app.use((err, req, res, next) => {
 
 */
 
-if (require.main === module) {
+if (require.main === module) { // require.main === module means the script has been run directly
   app.listen(port, () => {
     console.log('Express started in ' + app.get('env') + ` mode http://localhost:${port}; press Ctrl-C to terminate.`);
   })
