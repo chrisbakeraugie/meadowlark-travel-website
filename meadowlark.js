@@ -95,8 +95,20 @@ app.post('/api/vacation-photo-contest', (req, res) => {
       console.log('Ran error if statement');
     }
     handlers.api.vacationPhotoContest(req, res, fields, files);
-  })
-})
+  });
+});
+
+app.get('/fail', (req, res) => {
+  throw new Error('Nope!');
+});
+
+// use this to creash the server...for some reason
+app.get('/huge-fail', (req, res) => {
+  process.nextTick(() => {
+    throw new Error('Meltdown');
+  });
+});
+
 
 // 404 page
 app.use(handlers.notFound);

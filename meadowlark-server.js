@@ -60,6 +60,12 @@ app.engine('handlebars', expressHandlebars({
 }))
 app.set('view engine', 'handlebars')
 
+app.use((req, res, next) => {
+  if (cluster.isWorker) {
+    console.log(`Worker ${cluster.worker.id} recieved request`);
+  }
+  next()
+})
 // IMPORTANT Middleware is processed in order
 
 // This STATIC middleware has the same effect as creating a route for each static
@@ -103,6 +109,16 @@ app.post('/api/vacation-photo-contest', (req, res) => {
     handlers.api.vacationPhotoContest(req, res, fields, files);
   })
 })
+
+app.get('/fail', (req, res) => {
+  throw new Error('Nope!');
+});
+
+app.get('/huge-fail', (req, res) => {
+  process.nextTick(() => {
+    throw new Error('Meltdown');
+  });
+});
 
 // 404 page
 app.use(handlers.notFound);
