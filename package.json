@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint meadowlark.js lib",
-    "main": "node meadowlark.js"
+    "main": "node meadowlark.js",
+    "stress": "artillery quick --count 10 -n 20 http://localhost:3005/"
   },
   "author": "Chris Baker",
   "license": "ISC",
