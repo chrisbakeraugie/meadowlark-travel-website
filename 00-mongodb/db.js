@@ -89,9 +89,7 @@ Vacation.find((err, vacations) => {
 });
 
 module.exports = {
-  getVacations: async () => {
-    // ... returns fake vaction data
-  },
+  getVacations: async (options = {}) => Vacation.find(options),
 
   addVacationInSeasonListener: async (email, sku) => {
     // ... nothing???

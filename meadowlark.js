@@ -99,6 +99,8 @@ app.post('/api/vacation-photo-contest', (req, res) => {
   });
 });
 
+app.get('/vacations', handlers.listVacations);
+
 app.get('/fail', (req, res) => {
   throw new Error('Nope!');
 });
@@ -109,7 +111,6 @@ app.get('/huge-fail', (req, res) => {
     throw new Error('Meltdown');
   });
 });
-
 
 // 404 page
 app.use(handlers.notFound);
