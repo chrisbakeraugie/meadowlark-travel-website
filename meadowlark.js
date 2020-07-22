@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const { credentials } = require('./config'); // Only works with brackets? Must be considreed an object
 const expressSession = require('express-session');
 const flashMiddleware = require('./lib/middleware/flash');
+const db = require('./00-mongodb/db');
 
 const app = express();
 
