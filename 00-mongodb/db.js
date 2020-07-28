@@ -89,7 +89,7 @@ Vacation.find((err, vacations) => {
 });
 
 module.exports = {
-  getVacations: async (options = {}) => Vacation.find(options),
+  getVacations: async (options = {}) => Vacation.find(options), // By creating the 'options' variable, you can pass in parameters to filter your find(). It's not a shorthand that is easy to read, IMO
 
   addVacationInSeasonListener: async (email, sku) => {
     // ... nothing???
