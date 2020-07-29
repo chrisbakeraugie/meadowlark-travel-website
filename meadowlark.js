@@ -101,6 +101,10 @@ app.post('/api/vacation-photo-contest', (req, res) => {
 
 app.get('/vacations', handlers.listVacations);
 
+app.get('/notify-me-when-in-season', handlers.notifyWhenInSeasonForm);
+
+app.post('/notify-me-when-in-season', handlers.notifyWhenInSeasonProcess);
+
 app.get('/fail', (req, res) => {
   throw new Error('Nope!');
 });

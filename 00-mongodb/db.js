@@ -6,6 +6,7 @@ const { credentials } = require('../config');
 const mongoose = require('mongoose');
 const { connectionString } = credentials.mongo;
 const Vacation = require('./models/vacation');
+const VacationInSeasonListener = require('./models/vacationInSeasonListener');
 
 if (!connectionString) {
   console.error('MongoDB connection string missing');
@@ -92,6 +93,10 @@ module.exports = {
   getVacations: async (options = {}) => Vacation.find(options), // By creating the 'options' variable, you can pass in parameters to filter your find(). It's not a shorthand that is easy to read, IMO
 
   addVacationInSeasonListener: async (email, sku) => {
-    // ... nothing???
+    await VacationInSeasonListener.updateOne(
+      { email },
+      { $push: { skus: sku } }, // $push tells is mongoose indicates that we are adding a value to an array
+      { upsert: true } // mongoose combination of update and insert. If a record with the current email doesn't exist, create on. If it does, update it. 
+    )
   }
 };
