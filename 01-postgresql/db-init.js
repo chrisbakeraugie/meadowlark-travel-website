@@ -5,12 +5,12 @@ const { connectionString } = credentials.postgres;
 const client = new Client({ connectionString });
 
 /**
- * Schema explanation:
- * 
+ * some Schema explanation:
+ *
  * each line has a column name[space]datatype
  * varchar(200) - this is capping the length of a name at 200 characters arbitrarily
- * 
- * jsonb 
+ *
+ * jsonb - a binary representation that's usually higher performance
  */
 const createScript = `
  CREATE TABLE IF NOT EXISTS vacations (
