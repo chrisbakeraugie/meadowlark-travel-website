@@ -109,7 +109,7 @@ app.get('/fail', (req, res) => {
   throw new Error('Nope!');
 });
 
-// use this to creash the server...for some reason
+// use this to crash the server...for some reason
 app.get('/huge-fail', (req, res) => {
   process.nextTick(() => {
     throw new Error('Meltdown');
