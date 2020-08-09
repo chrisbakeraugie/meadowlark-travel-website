@@ -31,6 +31,12 @@ const createScript = `
    notes text,
    packages_sold integer
  );
+
+ CREATE TABLE IF NOT EXISTS vacation_in_season_listeners (
+   email varchar(200) NOT NULL,
+   sku varchar(20),
+   PRIMARY KEY (email, sku)
+ );
  `
 const getVacationCount = async client => {
   const { rows } = await client.query('SELECT COUNT(*) FROM VACATIONS');
@@ -57,17 +63,17 @@ const seedVacations = async client => {
     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
     `
   await client.query(sql, [
-    'Hood River Day Trip',
-    'hood-river-day-trip',
-    'Day Trip',
-    'HR199',
-    'Spend a day sailing on the Columbia and enjoy craft beers in Hood River!',
-    'Hood River, Oregon, USA',
-    99.95,
+    '4 Another Vacation',
+    '4-another-vacation',
+    '6 Decade involuntary swimming expereince',
+    'AS4D',
+    'For the love of god don\'t click this link.',
+    'Satan\'s Kingdom, CT',
+    3,
     // eslint-disable-next-line quotes
     `["day trip", "hood river", "sailing", "windsurfing", "breweries"]`,
-    true,
-    true,
+    false,
+    false,
     false,
     16,
     null,
@@ -82,12 +88,12 @@ client.connect().then(async () => {
     console.log('creating database schema');
     await client.query(createScript);
     const vacationCount = await getVacationCount(client);
-    if (vacationCount === 0) {
+    if (vacationCount === 3) {
       console.log('seeding vacations');
       await seedVacations(client);
     }
   } catch (err) {
-    console.log('ERROR: could not initialize databse');
+    console.log('ERROR: could not initialize database');
     console.log(err.message);
   } finally {
     client.end();

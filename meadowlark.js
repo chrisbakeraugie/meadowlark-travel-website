@@ -6,7 +6,9 @@ const cookieParser = require('cookie-parser');
 const { credentials } = require('./config'); // Only works with brackets? Must be considreed an object
 const expressSession = require('express-session');
 const flashMiddleware = require('./lib/middleware/flash');
-const db = require('./00-mongodb/db');
+// const db = require('./00-mongodb/db');
+const RedisStore = require('connect-redis')(expressSession); // this is a "quirk" of using session stores. Read Below
+// Having to pass expressSession to the function returned from connect-redis "to get the constructor"
 
 const app = express();
 
@@ -22,7 +24,11 @@ app.use(cookieParser(credentials.cookieSecret));
 app.use(expressSession({
   resave: false,
   saveUninitialized: false,
-  secret: credentials.cookieSecret
+  secret: credentials.cookieSecret,
+  store: new RedisStore({
+    url: credentials.redis.url,
+    logErrors: true // best practice to log errors
+  })
 }));
 
 app.use(flashMiddleware);
