@@ -1,0 +1,13 @@
+h1 {
+  color: coral;
+}
+
+a.currency {
+  text-decoration: none;
+  color: green;
+}
+
+.currency.selected {
+  font-weight: bold;
+  font-size: 150%;
+}

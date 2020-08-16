@@ -1,21 +1,28 @@
 <!DOCTYPE html>
+
 <html>
-    <head>
-        <title>Meadowlark Travel</title>
-        {{{_.sections.head}}}
-    </head>
-    <body>
-        <header>
-            <img src="/img/Augustana Logo.png" alt="Meadowlark Travel Logo but Actually Augustana Logo" />
-        </header>
-        {{#if flash}}
-        <div class="alert alert-dismissible alert-{{flash.type}}">
-            <button type="button" class="close"
-                data-dismiss="alert" aria-hidden="true">&times;</button>
-                <strong>{{flash.intro}}</strong> {{{flash.message}}}
-        </div>
-        {{/if}}
-        {{{body}}}
-        {{{_sections.scripts}}}
-    </body>
+
+
+<head>
+    {{!-- For reasons that elude me, it is IMPOSSIBLE to link a stylesheet to this handlebars document --}}
+
+    <title>Meadowlark Travel</title>
+    {{{_.sections.head}}}
+    <link rel="stylesheet" type="text/css" href="/css/mystyles.css"> 
+</head>
+
+<body>
+    <header>
+        <img src="/img/Augustana Logo.png" alt="Meadowlark Travel Logo but Actually Augustana Logo" />
+    </header>
+    {{#if flash}}
+    <div class="alert alert-dismissible alert-{{flash.type}}">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>{{flash.intro}}</strong> {{{flash.message}}}
+    </div>
+    {{/if}}
+    {{{body}}}
+    {{{_sections.scripts}}}
+</body>
+
 </html>

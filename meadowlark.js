@@ -7,6 +7,7 @@ const { credentials } = require('./config'); // Only works with brackets? Must b
 const expressSession = require('express-session');
 const flashMiddleware = require('./lib/middleware/flash');
 // const db = require('./00-mongodb/db');
+// const redis = require('redis');
 const RedisStore = require('connect-redis')(expressSession); // this is a "quirk" of using session stores. Read Below
 // Having to pass expressSession to the function returned from connect-redis "to get the constructor"
 
@@ -110,6 +111,8 @@ app.get('/vacations', handlers.listVacations);
 app.get('/notify-me-when-in-season', handlers.notifyWhenInSeasonForm);
 
 app.post('/notify-me-when-in-season', handlers.notifyWhenInSeasonProcess);
+
+app.get('/set-currency/:currency', handlers.setCurrency);
 
 app.get('/fail', (req, res) => {
   throw new Error('Nope!');
