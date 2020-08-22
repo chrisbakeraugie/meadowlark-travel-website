@@ -5,7 +5,7 @@ const app = express();
 // this should appear before all other routes
 
 var admin = express.Router()
-app.use(vhost('admin.meadowlark.local', admin));
+app.use(vhost('admin.meadowlark.localhost', admin));
 
 // create admin routes; these can be defined anwywhere
 admin.get('*', (req, res) => { res.send('Welcome, Admin!') });
