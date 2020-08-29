@@ -1,43 +1,5 @@
-const express = require('express');
-const expressHandlebars = require('express-handlebars');
-const bodyParser = require('body-parser');
-const multiparty = require('multiparty');
-const cookieParser = require('cookie-parser');
-const { credentials } = require('./config'); // Only works with brackets? Must be considreed an object
-const expressSession = require('express-session');
-const flashMiddleware = require('./lib/middleware/flash');
-// const db = require('./00-mongodb/db');
-// const redis = require('redis');
-const RedisStore = require('connect-redis')(expressSession); // this is a "quirk" of using session stores. Read Below
-// Having to pass expressSession to the function returned from connect-redis "to get the constructor"
 
-/**
- * This object is not important.
- * This object is used for Route params demonstration
- */
-const staff = {
-  portland: {
-    mitch: {
-      name: 'Mitch',
-      bio: 'Mitch is the man to have at your back in a bar fight.'
-    },
-    madeline: {
-      name: 'Madeline',
-      bio: 'She is our Oregon Expert'
-    }
-  },
-  bend: {
-    walt: {
-      name: 'Walt',
-      bio: 'Walt is our Oregon Coast Expert'
-    }
-  }
-}
 
-const app = express();
-
-const handlers = require('./lib/handlers');
-const weatherMiddlware = require('./lib/middleware/weather');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -56,8 +18,6 @@ app.use(expressSession({
 }));
 
 app.use(flashMiddleware);
-
-const port = process.env.PORT || 3005;
 
 // //this array of fortunes is being used to explain dynamic information
 // // ******        MOVED TO lib/fortune.js             *************
@@ -168,62 +128,3 @@ app.use(handlers.notFound);
 app.use(handlers.serverError);
 
 app.use(weatherMiddlware);
-
-/*
-Everything in this comment section is replaced by handlers.js, refeactoring that is being
-done to practice QA code testing.
-Leaving it here for the purpose of remembering the basics of Express
-
-//route to the home page
-app.get('/', (req, res) => {
-    //Handlebars render
-    res.render('home')
-
-    //Non-handlebar framwork   vvvvv
-    // res.type('text/plain')
-    // res.send('Meadowlark Travel')
-})
-
-//route to the about page
-app.get('/about', (req, res) => {
-    //handlebars render
-
-    //MOVED TO lib/fortunes.js
-    //const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)]
-    res.render('about', {fortune: fortune.getFortune() })
-
-    //Non-handlebar framwork   vvvvv
-    // res.type('text/plain')
-    // res.send('About Meadowlark Travel')
-})
-
-//custom 404 page
-app.use((request, response) => {
-    response.type('text/plain');
-    response.status(404);
-    response.send('404 - No Page for U');
-})
-
-//custom 500 page
-app.use((err, req, res, next) => {
-    console.error(err.message);
-    res.type('text/plain');
-    res.status(500)
-    res.send('500 - Server Error')
-})
-
-*/
-
-if (require.main === module) { // require.main === module means the script has been run directly
-  app.listen(port, () => {
-    console.log('Express started in ' + app.get('env') + ` mode http://localhost:${port}; press Ctrl-C to terminate.`);
-  })
-} else {
-  module.exports = app;
-}
-
-// Replaced with if(require.main) in order to practice integration testing
-
-// app.listen(port, () => {
-//     console.log(`Express started on http://localhost:${port}; ` + `press Ctrl-C to terminate.`)
-// })
